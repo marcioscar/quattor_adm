@@ -11,9 +11,12 @@ const handler = async (req, res) => {
       case "GET":
         //buscar no mongodb
         const param = req.query;
-
+        console.log(param);
         const { db } = await connectToDatabase();
-        const data = await db.collection("treinos").find().toArray();
+        const data = await db
+          .collection("treinos")
+          .find({ semana: parseInt(param.semana) })
+          .toArray();
 
         res.status(200).json(data);
 

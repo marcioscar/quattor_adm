@@ -10,7 +10,6 @@ function getNumberOfWeek() {
   return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 }
 
-console.log(getNumberOfWeek());
 const handler = async (req, res) => {
   try {
     const { method } = req;
@@ -24,7 +23,8 @@ const handler = async (req, res) => {
         const data = await db
           .collection("treinos")
           .find({
-            $and: [{ grupo: param.group }, { semana: getNumberOfWeek() }],
+            //$and: [{ grupo: param.group }, { semana: getNumberOfWeek() }],
+            $and: [{ grupo: param.group }, { semana: parseInt(param.semana) }],
           })
           .toArray();
 

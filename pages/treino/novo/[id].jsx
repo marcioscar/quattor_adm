@@ -60,6 +60,13 @@ export default function Treino(props) {
         }}
         enableReinitialize={true}
         onSubmit={onSubmit}
+        validate={(values) => {
+          let errors = {};
+          if (!values.nome) {
+            errors.nome = "Preencha o Nome";
+          }
+          return errors;
+        }}
       >
         <Form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
           <div className="md:flex flex-row md:space-x-4 w-full text-xs">
@@ -77,7 +84,12 @@ export default function Treino(props) {
                 type="text"
                 placeholder="Nome do Exercício"
               />
-              <ErrorMessage name="nome" />
+
+              <ErrorMessage
+                className="text-vermelho"
+                name="nome"
+                component="div"
+              />
             </div>
           </div>
           <div className="md:flex flex-row md:space-x-4 w-full text-xs">
@@ -146,22 +158,24 @@ export default function Treino(props) {
         </Form>
       </Formik>
 
-      <div className="grid w-full  place-items-center	gap-4">
-        <div className="text-verde text-xl  mb-2">Treinos Cadastrados</div>
+      <div className="grid w-full  md:place-items-center	gap-4">
+        <div className="text-verde text-xl ml-4">Treinos Cadastrados</div>
         <div className="p-4">
-          <table className=" table-fixed md:table-auto overflow-hidden md:w-1/2">
+          <table className=" w-full table-auto overflow-hidden md:w-1/2">
             <thead>
               <tr className="bg-gray-200 text-gray-500 uppercase text-sm leading-normal">
                 <th className="py-2 pl-1 text-left">Exercicio</th>
                 <th className="py-2 pl-1 text-left">Repetições</th>
                 <th className="py-2 pl-1 text-left">Carga</th>
-                <th className="py-2 px-2 w-1/4 text-left">Observação</th>
+                <th className="hidden md:block py-2 px-2  text-left">
+                  Observação
+                </th>
               </tr>
             </thead>
 
             <tbody className="text-gray-600 text-sm font-light">
-              {treino.map((t) =>
-                t.exercicios.map((e) => (
+              {treino?.map((t) =>
+                t.exercicios?.map((e) => (
                   <tr
                     key={e.id}
                     className="border-b border-gray-200 hover:bg-white"
@@ -188,7 +202,7 @@ export default function Treino(props) {
                       </div>
                     </td>
                     <td>
-                      <div className="flex items-left ">
+                      <div className="hidden md:flex items-left ">
                         <div className=" py-2  pr-1 text-left whitespace-nowrap">
                           {e.obs}
                         </div>
